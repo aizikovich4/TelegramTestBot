@@ -1,9 +1,9 @@
 import telebot;
 from telebot import apihelper
 
-apihelper.proxy = {'http':'http://142.93.158.26:3128'}
+#apihelper.proxy = {'http':'http://142.93.158.26:3128'}
 
-bot = telebot.TeleBot("API_TOKEN");
+bot = telebot.TeleBot("");
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
@@ -11,9 +11,8 @@ def send_welcome(message):
 
 @bot.message_handler(func=lambda message: True)
 def echo_all(message):
-    print("get new message")
-    bot.reply_to(message, message.text)
+    print("get new message") 
+    print(message.chat)
+    bot.send_message(message.chat.id, message.text+" from "+ (message.chat.last_name if message.chat.last_name else "") +" " + (message.chat.first_name if message.chat.first_name else "")+ " as "+ (message.chat.username if message.chat.username else "") )
 
-bot.polling(none_stop=True, interval=500)
-#bot.polling()
-
+bot.polling(none_stop=True)
